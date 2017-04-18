@@ -1,6 +1,13 @@
 var SpawnManager = {
 
     check: function() {
+
+        var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
+        if(builders.length == 0) {
+            var newName = Game.spawns['Home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+            console.log('Spawning new builder: ' + newName);
+        }
+
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
         console.log('Harvesters: ' + harvesters.length);
 
