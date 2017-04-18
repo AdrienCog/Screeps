@@ -8,6 +8,12 @@ var SpawnManager = {
             console.log('Spawning new builder: ' + newName);
         }
 
+        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+        if(upgraders.length == 0) {
+            var newName = Game.spawns['Home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+            console.log('Spawning new upgrader: ' + newName);
+        }
+
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
         console.log('Harvesters: ' + harvesters.length);
 
