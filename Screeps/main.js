@@ -1,8 +1,8 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
-var SpawnManager = require('spawn.js');
-var DefenseManager = require('defense.js');
+var SpawnManager = require('spawn');
+var DefenseManager = require('defense');
 
 module.exports.loop = function () {
 
