@@ -2,6 +2,11 @@ var SpawnManager = {
 
     check: function() {
 
+        let buildersNbRequired = 6
+        let upgradersNbRequired = 6
+        let harvestersNbRequired = 6
+
+
         var home = Game.spawns['Home'];
 
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
@@ -23,16 +28,6 @@ var SpawnManager = {
             var newName = home.createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
             console.log('Spawning new harvester: ' + newName);
         }
-
-        // if(home.energy == home.energyCapacity) {
-        //     for(var name in harvesters) {
-        //         var creep = Game.creeps[name];
-        //         if(creep) {
-        //             creep.memory.role = 'builder';                    
-        //         }
-        //     }
-        // }
-
 
         if(home.spawning) {
             var spawningCreep = Game.creeps[home.spawning.name];
