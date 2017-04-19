@@ -2,32 +2,44 @@ var SpawnManager = {
 
     check: function() {
 
+        var home = Game.spawns['Home'];
+
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-        if(builders.length == 0) {
-            var newName = Game.spawns['Home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
+        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+        console.log('Harvesters: ' + harvesters.length + ', Builders: ' + builders.length + ', Upgraders: ' + upgraders.length);
+
+        if(builders.length < 6) {
+            var newName = home.createCreep([WORK,CARRY,MOVE], undefined, {role: 'builder'});
             console.log('Spawning new builder: ' + newName);
         }
 
-        var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-        if(upgraders.length == 0) {
-            var newName = Game.spawns['Home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+        if(upgraders.length < 6) {
+            var newName = home.createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
             console.log('Spawning new upgrader: ' + newName);
         }
 
-        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        console.log('Harvesters: ' + harvesters.length);
-
-        if(harvesters.length < 2) {
-            var newName = Game.spawns['Home'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
+        if(harvesters.length < 6) {
+            var newName = home.createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester'});
             console.log('Spawning new harvester: ' + newName);
         }
 
-        if(Game.spawns['Home'].spawning) {
-            var spawningCreep = Game.creeps[Game.spawns['Home'].spawning.name];
-            Game.spawns['Home'].room.visual.text(
+        // if(home.energy == home.energyCapacity) {
+        //     for(var name in harvesters) {
+        //         var creep = Game.creeps[name];
+        //         if(creep) {
+        //             creep.memory.role = 'builder';                    
+        //         }
+        //     }
+        // }
+
+
+        if(home.spawning) {
+            var spawningCreep = Game.creeps[home.spawning.name];
+            home.room.visual.text(
                 '🛠️' + spawningCreep.memory.role,
-                Game.spawns['Home'].pos.x + 1,
-                Game.spawns['Home'].pos.y,
+                home.pos.x + 1,
+                home.pos.y,
                 {align: 'left', opacity: 0.8});
         }
     }
