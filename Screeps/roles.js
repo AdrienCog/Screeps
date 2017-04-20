@@ -1,4 +1,11 @@
 
+// let sourceSetup = {
+
+
+
+// }
+
+
 let rolesSetup = {
     'lvl1': [
         {
@@ -14,17 +21,17 @@ let rolesSetup = {
     ],
     'lvl2': [
         {
-            'role': 'builder',
+            'role': 'transporter',
+            'count': 2,
+            'stats': [WORK,CARRY,MOVE]
+        },
+        {
+            'role': 'upgrader',
             'count': 1,
             'stats': [WORK,CARRY,MOVE]
         },
         {
-            'role': 'transporter',
-            'count': 0,
-            'stats': [CARRY,CARRY,MOVE]
-        },
-        {
-            'role': 'upgrader',
+            'role': 'builder',
             'count': 1,
             'stats': [WORK,CARRY,MOVE]
         },

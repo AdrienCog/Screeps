@@ -1,19 +1,49 @@
 var roleMiner = {
 
-    /** @param {Creep} creep **/
     run: function(creep) {
-        let home = Game.spawns['Home'];
+        let spawn = Game.spawns['Spawn1'];
 
-        if(creep.carry.energy < creep.carryCapacity) {
-            let source = creep.room.find(FIND_SOURCES)[creep.memory.index];
+        let source = creep.room.find(FIND_SOURCES)[creep.memory.index];
+        
+        let container = source.pos.findInRange(FIND_STRUCTURES, 10, { 
+            filter: function(structure){ 
+                return structure.structureType == STRUCTURE_CONTAINER 
+            } 
+        })[0];
 
-            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
+        let containerBuild = creep.pos.findInRange(FIND_CONSTRUCTION_SITES, 10, { 
+            filter: function(structure){
+                return structure.structureType == STRUCTURE_CONTAINER
             }
+        })[0];
+
+        if(creep.memory.canBuild && creep.carry.energy == 0) {
+            creep.memory.canBuild = false;
         }
-        else {
-            if(creep.transfer(home, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(home);
+        if(!creep.memory.canBuild && creep.carry.energy == creep.carryCapacity) {
+            creep.memory.canBuild = true;
+        }
+
+        if(containerBuild && creep.memory.canBuild) {
+            if(creep.build(containerBuild) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(containerBuild);
+            }
+        }else{
+
+            let isFull = creep.carry.energy >= creep.carryCapacity;
+
+            if(isFull) {
+                if(container) {
+                    if(creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(container);
+                    }
+                }
+            }else{
+                // HARVEST SOURCE
+                let source = creep.room.find(FIND_SOURCES)[creep.memory.index];
+                if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
+                }
             }
         }
     }

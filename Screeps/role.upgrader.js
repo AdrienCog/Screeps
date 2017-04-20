@@ -4,7 +4,7 @@ var roleUpgrader = {
     run: function(creep) {
 
         let controller = creep.room.controller;
-        let home = Game.spawns["Home"];
+        let spawn = Game.spawns["Spawn1"];
 
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
@@ -21,8 +21,9 @@ var roleUpgrader = {
         else {
             let building = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: function(structure){ return structure.structureType == STRUCTURE_CONTAINER } });
             if(!building) {
-                building = home;
+                building = spawn;
             }
+            building = spawn;
             if(building.transferEnergy(creep, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(building, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
