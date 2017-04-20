@@ -21,8 +21,12 @@ var roleBuilder = {
             }
         }
         else {
-            if(home.transferEnergy(creep, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(home, {visualizePathStyle: {stroke: '#ffaa00'}});
+            let building = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: function(structure){ return structure.structureType == STRUCTURE_CONTAINER } });
+            if(!building) {
+                building = home;
+            }
+            if(building.transferEnergy(creep, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(building, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
     }

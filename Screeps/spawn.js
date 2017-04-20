@@ -1,38 +1,26 @@
+var rolesSetup = require('roles');
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 var SpawnManager = {
 
     check: function() {
         var home = Game.spawns['Home'];
 
-        let creepRoles = [
-            {
-                'role': 'miner',
-                'names': ['Miner1', 'Miner2'], 
-                'stats': [WORK,CARRY,MOVE]
-            },
-            {   'role': 'upgrader',
-                'names': ['Upgrader1'], //, 'Upgrader2'],
-                'stats': [WORK,CARRY,MOVE]
-            },
-            {
-                'role': 'builder',
-                'names': ['Builder1', 'Builder2'],
-                'stats': [WORK,CARRY,MOVE]
-            }
-        ];
+        let roles = rolesSetup.lvl2;
 
-        let allNames = [];
-
-        creepRoles.forEach(function(creepRole) {
+        roles.forEach(function(creepRole) {
             let role = creepRole.role;
-            let names = creepRole.names;
             let stats = creepRole.stats;
-            names.forEach(function(name) {
-                allNames.push(name);
+            for(var i=0; i<creepRole.count; i++) {
+                let name = capitalizeFirstLetter(role + (i + 1))
                 if(!Game.creeps[name]) {
-                    home.createCreep(stats, name, {'role': role});
+                    home.createCreep(stats, name, {'role': role, 'index': i});
                 }else{
                 }
-            });
+            }
         });
         
         // for(var name in Memory.creeps) {
