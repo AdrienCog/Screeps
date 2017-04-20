@@ -3,13 +3,13 @@ var roleBuilder = {
     /** @param {Creep} creep **/
     run: function(creep) {
 
+        let home = Game.spawns["Home"];
+
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
-            creep.say('🔄 harvest');
         }
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
             creep.memory.building = true;
-            creep.say('🚧 build');
         }
 
         if(creep.memory.building) {
@@ -21,9 +21,8 @@ var roleBuilder = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
+            if(home.transferEnergy(creep, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(home, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
     }
