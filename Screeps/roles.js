@@ -23,7 +23,7 @@ let rolesSetup = {
         {
             'role': 'transporter',
             'count': 2,
-            'stats': [WORK,CARRY,MOVE]
+            'stats': [CARRY,CARRY,MOVE,MOVE]
         },
         {
             'role': 'upgrader',
@@ -32,7 +32,7 @@ let rolesSetup = {
         },
         {
             'role': 'builder',
-            'count': 1,
+            'count': 2,
             'stats': [WORK,CARRY,MOVE]
         },
         {
