@@ -20,7 +20,6 @@ var roleTransporter = {
                 creep.moveTo(spawn);
             }
         }else{
-            console.log(container);
 
             let amount = Math.min(creep.carryCapacity, container.capacity);
 
