@@ -4,7 +4,10 @@ var roleTransporter = {
     run: function(creep) {
         let spawn = Game.spawns['Spawn1'];
 
-        let source = creep.room.find(FIND_SOURCES)[creep.memory.index];
+        let sourceIndex = Math.min(creep.memory.index, 1);
+        console.log(sourceIndex);
+
+        let source = creep.room.find(FIND_SOURCES)[sourceIndex];
         
         let container = source.pos.findInRange(FIND_STRUCTURES, 10, { 
             filter: function(structure){ 

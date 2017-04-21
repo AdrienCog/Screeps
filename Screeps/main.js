@@ -9,21 +9,27 @@ module.exports.loop = function () {
 
     SpawnManager.check();
 
+    let spawn = Game.spawns['Spawn1'];
+
     let miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');
+    let minersRequired = 2
     let transporters = _.filter(Game.creeps, (creep) => creep.memory.role == 'transporter');
+    let transportersRequired = 3
 
     for(var name in Game.creeps) {
 
         var creep = Game.creeps[name];
 
-        if(miners.length == 0 || transporters.length == 0) {
-            roleTransporter.run(creep);
-            return
-        }
-
         if(creep.memory.role == 'miner') {
             roleMiner.run(creep);
+            continue;
         }
+
+        if(transporters.length < transportersRequired && !spawn.spawing) {
+            roleTransporter.run(creep);
+            continue;
+        }
+
         if(creep.memory.role == 'transporter') {
             roleTransporter.run(creep);
         }

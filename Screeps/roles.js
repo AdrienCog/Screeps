@@ -22,7 +22,7 @@ let rolesSetup = {
     'lvl2': [
         {
             'role': 'transporter',
-            'count': 2,
+            'count': 3,
             'stats': [CARRY,CARRY,MOVE,MOVE]
         },
         {
