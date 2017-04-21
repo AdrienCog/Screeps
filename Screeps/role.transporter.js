@@ -5,7 +5,6 @@ var roleTransporter = {
         let spawn = Game.spawns['Spawn1'];
 
         let sourceIndex = Math.min(creep.memory.index, 1);
-        console.log(sourceIndex);
 
         let source = creep.room.find(FIND_SOURCES)[sourceIndex];
         
@@ -14,20 +13,34 @@ var roleTransporter = {
                 return structure.structureType == STRUCTURE_CONTAINER 
             } 
         })[0];
+
+        if(!creep.memory.isTransporting && creep.carry.energy >= creep.carryCapacity) {
+            creep.memory.isTransporting = true;
+        }
+        if(creep.memory.isTransporting && creep.carry.energy == 0) {
+            creep.memory.isTransporting = false;
+        }
+
         if(!container) { return }
 
-        let isFull = creep.carry.energy >= creep.carryCapacity;
+        if(creep.memory.isTransporting) {
 
-        if(isFull) {
-            if(creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(spawn);
+            let storage = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                        structure.energy < structure.energyCapacity;
+                }
+            })[0];
+
+            if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(storage, {visualizePathStyle: {stroke: '#ff0000'}});
             }
         }else{
 
             let amount = Math.min(creep.carryCapacity, container.capacity);
 
             if(creep.withdraw(container, RESOURCE_ENERGY, amount) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(container);
+                creep.moveTo(container, {visualizePathStyle: {stroke: '#ff0000'}});
             }
         }
     }

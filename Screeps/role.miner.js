@@ -3,14 +3,9 @@ var roleMiner = {
     run: function(creep) {
         let spawn = Game.spawns['Spawn1'];
 
-        let source = creep.room.find(FIND_SOURCES)[creep.memory.index];
-        
-        let container = source.pos.findInRange(FIND_STRUCTURES, 10, { 
-            filter: function(structure){ 
-                return structure.structureType == STRUCTURE_CONTAINER 
-            } 
-        })[0];
-
+        let sourceIndex = Math.min(creep.memory.index, 1);
+        let source = creep.room.find(FIND_SOURCES)[sourceIndex];
+ 
         let containerBuild = creep.pos.findInRange(FIND_CONSTRUCTION_SITES, 10, { 
             filter: function(structure){
                 return structure.structureType == STRUCTURE_CONTAINER
@@ -33,16 +28,32 @@ var roleMiner = {
             let isFull = creep.carry.energy >= creep.carryCapacity;
 
             if(isFull) {
-                if(container) {
-                    if(creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(container);
+
+                let storage = source.pos.findInRange(FIND_STRUCTURES, 10, { 
+                    filter: function(structure){ 
+                        return structure.structureType == STRUCTURE_CONTAINER;
+                         // && structure.store < structure.storeCapacity;
+                    } 
+                })[0];
+
+                if(!storage) {
+                    storage = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                                structure.energy < structure.energyCapacity;
+                        }
+                    })[0];
+                }
+
+                if(storage) {
+                    if(creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(storage, {visualizePathStyle: {stroke: '#ff0000'}});
                     }
                 }
             }else{
                 // HARVEST SOURCE
-                let source = creep.room.find(FIND_SOURCES)[creep.memory.index];
                 if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(source);
+                    creep.moveTo(source, {visualizePathStyle: {stroke: '#ff0000'}});
                 }
             }
         }

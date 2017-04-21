@@ -14,7 +14,7 @@ module.exports.loop = function () {
     let miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');
     let minersRequired = 2
     let transporters = _.filter(Game.creeps, (creep) => creep.memory.role == 'transporter');
-    let transportersRequired = 3
+    let transportersRequired = 2
 
     for(var name in Game.creeps) {
 
@@ -25,14 +25,19 @@ module.exports.loop = function () {
             continue;
         }
 
-        if(transporters.length < transportersRequired && !spawn.spawing) {
-            roleTransporter.run(creep);
-            continue;
+        if(creep.memory.role == 'transporter') {
+            roleTransporter.run(creep);                
         }
 
-        if(creep.memory.role == 'transporter') {
-            roleTransporter.run(creep);
-        }
+        // if(miners.length < minersRequired && !spawn.spawing) {
+        //     roleMiner.run(creep);
+        //     continue;
+        // }
+
+        // if(transporters.length < transportersRequired && !spawn.spawing) {
+        //     roleTransporter.run(creep);
+        //     continue;
+        // }
 
         if(creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);

@@ -27,18 +27,18 @@ let rolesSetup = {
         },
         {
             'role': 'upgrader',
-            'count': 1,
+            'count': 3,
             'stats': [WORK,CARRY,MOVE]
         },
         {
             'role': 'builder',
-            'count': 2,
+            'count': 4,
             'stats': [WORK,CARRY,MOVE]
         },
         {
             'role': 'miner',
             'count': 2,
-            'stats': [WORK,CARRY,MOVE]
+            'stats': [WORK,WORK,CARRY,MOVE]
         }
     ]
 }
