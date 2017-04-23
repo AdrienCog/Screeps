@@ -39,7 +39,7 @@ module.exports.loop = function () {
         // }
 
         if(creep.memory.role == 'upgrader') {
-            if(hasEnoughMiners || creep.name == "Upgrader1") {
+            if(hasEnoughMiners || creep.name == "Upgrader1") {
                 roleUpgrader.run(creep);
             }else{
                 roleMiner.run(creep);                
