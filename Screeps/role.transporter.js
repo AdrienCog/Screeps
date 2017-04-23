@@ -32,8 +32,22 @@ var roleTransporter = {
                 }
             })[0];
 
+            let tower = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity);
+                }
+            })[0];
+
             if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(storage, {visualizePathStyle: {stroke: '#ff0000'}});
+
+                let roadToRepair = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: function(object){
+                        return object.structureType === STRUCTURE_ROAD && (object.hits < object.hitsMax);
+                    } 
+                });
+                creep.repair(roadToRepair);
+
             }
         }else{
 

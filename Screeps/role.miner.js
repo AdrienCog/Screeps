@@ -46,12 +46,21 @@ var roleMiner = {
                 }
 
                 if(storage) {
-                    if(creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(storage, {visualizePathStyle: {stroke: '#ff0000'}});
+
+                    if(storage.hits < 180000) {
+                        creep.say('🛠');
+                        if(creep.repair(storage) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(storage, {visualizePathStyle: {stroke: '#ff0000'}});
+                        }
+                    }else{
+                        if(creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(storage, {visualizePathStyle: {stroke: '#ff0000'}});
+                        }                        
                     }
                 }
             }else{
                 // HARVEST SOURCE
+                creep.say('💰');
                 if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source, {visualizePathStyle: {stroke: '#ff0000'}});
                 }

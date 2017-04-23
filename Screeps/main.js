@@ -2,7 +2,9 @@ var roleMiner = require('role.miner');
 var roleTransporter = require('role.transporter');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
+var roleRepairer = require('role.repairer');
 var SpawnManager = require('spawn');
+
 
 
 module.exports.loop = function () {
@@ -15,6 +17,8 @@ module.exports.loop = function () {
     let minersRequired = 2
     let transporters = _.filter(Game.creeps, (creep) => creep.memory.role == 'transporter');
     let transportersRequired = 2
+
+    let hasEnoughMiners = !(transporters.length < transportersRequired && !spawn.spawing)
 
     for(var name in Game.creeps) {
 
@@ -29,21 +33,34 @@ module.exports.loop = function () {
             roleTransporter.run(creep);                
         }
 
-        // if(miners.length < minersRequired && !spawn.spawing) {
-        //     roleMiner.run(creep);
-        //     continue;
-        // }
-
         // if(transporters.length < transportersRequired && !spawn.spawing) {
         //     roleTransporter.run(creep);
         //     continue;
         // }
 
         if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
+            if(hasEnoughMiners || creep.name == "Upgrader1") {
+                roleUpgrader.run(creep);
+            }else{
+                roleMiner.run(creep);                
+            }
+
         }
         if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
+            if(hasEnoughMiners) {
+                roleUpgrader.run(creep);
+                // roleBuilder.run(creep);                
+            }else{
+                roleTransporter.run(creep);
+            }
+
+        }
+        if(creep.memory.role == 'repairer') {
+            if(hasEnoughMiners) {
+                roleRepairer.run(creep);
+            }else{
+                roleTransporter.run(creep);       
+            }
         }
     }
 }

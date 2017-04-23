@@ -21,19 +21,24 @@ let rolesSetup = {
     ],
     'lvl2': [
         {
+            'role': 'repairer',
+            'count': 0,
+            'stats': [WORK,CARRY,MOVE]
+        },
+        {
             'role': 'transporter',
             'count': 3,
-            'stats': [CARRY,CARRY,MOVE,MOVE]
+            'stats': [WORK,CARRY,CARRY,MOVE,MOVE]
         },
         {
             'role': 'upgrader',
-            'count': 3,
+            'count': 2,
             'stats': [WORK,CARRY,MOVE]
         },
         {
             'role': 'builder',
-            'count': 4,
-            'stats': [WORK,CARRY,MOVE]
+            'count': 3,
+            'stats': [WORK,WORK,CARRY,MOVE]
         },
         {
             'role': 'miner',

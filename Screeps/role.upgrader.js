@@ -10,6 +10,7 @@ var roleUpgrader = {
             creep.memory.upgrading = false;
         }
         if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
+            creep.say('📈');
             creep.memory.upgrading = true;
         }
 
@@ -21,7 +22,7 @@ var roleUpgrader = {
         else {
 
 
-            let hasEnoughEnergy = spawn.energy >= spawn.energyCapacity;
+            let hasEnoughEnergy = spawn.energy >= 200;
 
             if(!hasEnoughEnergy) { return }
 
